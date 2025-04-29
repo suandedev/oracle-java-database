@@ -1,14 +1,9 @@
 package com.sms;
 
-import oracle.jdbc.OracleConnectionBuilder;
 import oracle.jdbc.OracleDriver;
-import oracle.jdbc.datasource.OracleDataSource;
 
-import javax.sql.PooledConnection;
-import java.io.PrintWriter;
 import java.sql.*;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 /**
  * Hello world!
@@ -30,7 +25,15 @@ public class App {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-        IndertMany();
+        IndertMany(); //FINAL
+//        String tcHome = System.getProperty("tc.home");
+//
+//        // Check if the property is set and print it
+//        if (tcHome != null) {
+//            System.out.println("The value of tc.home is: " + tcHome);
+//        } else {
+//            System.out.println("The property 'tc.home' is not set.");
+//        }
     }
 
     private static void Getall() throws SQLException {
@@ -101,7 +104,7 @@ public class App {
             PreparedStatement pstmt = conn.prepareStatement(insertSQL);
 
 
-            for (int i = 0; i < 1000000; i++) {
+            for (int i = 0; i < 10000000; i++) {
                 // Start timing the insertion
                 long startTime = System.currentTimeMillis();  // Record start time
                 // Set values for each parameter in the batch
@@ -114,8 +117,9 @@ public class App {
                 // Add the current insert statement to the batch
                 pstmt.addBatch();
 
+
                 // Execute the batch every 1000 records to avoid excessive memory usage
-                if (i % 100000 == 0 || i == 1000000 - 1) {
+                if (i % 10000 == 0 || i == 10000 - 1) {
                     pstmt.executeBatch();
                     conn.commit(); // Commit the batch after every 10000 inserts
 
@@ -124,7 +128,7 @@ public class App {
 
                     // Calculate the duration in seconds
                     long duration = (endTime - startTime) / 1000;
-                    System.out.println("Time taken to insert 100.000 rows: " + duration + " seconds");
+                    System.out.println("Time taken to insert 10.000 rows: " + duration + " seconds");
                 }
             }
 
